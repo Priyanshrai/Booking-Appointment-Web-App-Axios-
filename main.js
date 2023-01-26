@@ -19,22 +19,22 @@ function saveToLocalStorage(event) {
     console.log(err)
   }))
 
-  localStorage.setItem(obj.email, JSON.stringify(obj))
+  // localStorage.setItem(obj.email, JSON.stringify(obj))
   showNewUserOnScreen(obj)
 
 }
 
 window.addEventListener("DOMContentLoaded", () => {
   axios.get("https://crudcrud.com/api/5b5e3be3e52b4361b93faf04d28266e7/appointmentData")
-  .then((response=>{
-    console.log(response);
+  .then((response)=>{
+    
     for(i=0;i<response.data.length;i++){
       showNewUserOnScreen(response.data[i])
     }
-  }))
-  .catch((err=>{
+  })
+  .catch((err)=>{
     console.log(err)
-  }))
+  })
   
  
   // const localStorageObj = localStorage;
@@ -51,17 +51,16 @@ window.addEventListener("DOMContentLoaded", () => {
 function showNewUserOnScreen(user){
  
 const parentNode = document.getElementById('listOfUsers');
-  const childHTML = `<li id=${user._id}>  
-                          ${user.name} - ${user.email}    
+  const childHTML = `<li id=${user._id}> ${user.name} - ${user.email}    
                           <button onclick=deleteUser('${user._id}')> Delete User </button>
-                          <button onclick=editUserDetails('${user.email}','${user.name}','${user.phonenumber}')>Edit User </button>
+                          <button onclick=editUserDetails('${user.email}','${user.name}','${user.phonenumber}','${user._id}')>Edit User </button>
                        </li>` //esa likha aayga
 
   parentNode.innerHTML = parentNode.innerHTML + childHTML;
 }
 // edit User
 
-function editUserDetails(emailId, name, phonenumber){
+function editUserDetails(emailId, name, phonenumber, userId){
 
   document.getElementById('email').value = emailId;
   document.getElementById('username').value = name;
@@ -76,12 +75,12 @@ function editUserDetails(emailId, name, phonenumber){
 function deleteUser(userId){
  
   axios.delete(`https://crudcrud.com/api/5b5e3be3e52b4361b93faf04d28266e7/appointmentData/${userId}`)
-  .then((res=>{
+  .then((res)=>{
     removeUserFromScreen(userId);
-  }))
-  .catch((err=>{
+  })
+  .catch((err)=>{
     console.log(err)
-  }))
+  })
 
   // localStorage.removeItem(emailId);
   // removeUserFromScreen(emailId);
